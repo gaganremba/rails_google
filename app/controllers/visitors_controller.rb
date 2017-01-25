@@ -1,6 +1,4 @@
 class VisitorsController < ApplicationController
-
-	# 
 	def index
 		if params[:q]
 			page = params[:page] || 1
