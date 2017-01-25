@@ -1,0 +1,58 @@
+<section class='search-section'>
+  <div class='text-center titles-with-yellow'>
+    <h1 align="center">Enter you want to search</h1>
+  </div>
+  <div class='container'>
+    <div class='text-center search-bar'>
+      <%= form_tag root_path, method: :get  do %>
+      <div class="inner-addon right-addon">
+        <i class="glyphicon glyphicon-search"></i>
+        <%= text_field_tag :q, params[:q], class: 'form-control' %>
+        <%=submit_tag "Search" ,class:"btn btn-primary"%>
+      </div>
+      <% end %>
+    </div>
+  </div>
+  <% if @results.present? %>
+  <table class="table table-hover">
+    <% @results.items.each do |item| %>
+    <thead>
+      <tr>
+        <td>
+          <%= link_to item.title %>
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+       <td>
+        <h3><%= link_to item.link %></h3>
+       <td>
+      </tr>    
+      </tbody>
+      <% end %>
+    </table>
+    <div class='container search-prev-next'>
+      <div class='row text-center'>
+        <% if @results.previous_page %>
+          <%= link_to '<< Previous',
+            root_path(q: params[:q], page: @results.previous_page),
+            class: 'btn' %>
+        <% end %>
+        <% @results.pages.times do |i| %>
+          <%= link_to i + 1,
+            root_path(q: params[:q], page: i+1),
+            class: 'btn btn-page' %>
+        <% end %>
+        <% if @results.next_page %>
+          <%= link_to 'Next >>',
+            root_path(q: params[:q],
+                        page: @results.next_page),
+            class: 'btn' %>
+        <% end %>
+      </div>
+    </div>
+    <% else %>
+    <h4>No results</h4>
+    <% end %>
+  </section>
